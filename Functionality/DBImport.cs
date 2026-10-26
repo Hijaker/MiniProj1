@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +13,9 @@ namespace MiniProj.Functionality
 {
     public static class DBImport
     {
-        private static readonly MongoClient client = new MongoClient("mongodb+srv://hijaker:CONFIGURE_LOCALLY@cluster0.phpb6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+        private static readonly MongoClient client = new MongoClient(
+            Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING")
+            ?? throw new InvalidOperationException("Set the MONGODB_CONNECTION_STRING environment variable before starting the application."));
         private static readonly IMongoDatabase database = client.GetDatabase("LIA");
         private static readonly IMongoCollection<BsonDocument> CompaniesCollection = database.GetCollection<BsonDocument>("CompaniesRobin");
         private static readonly IMongoCollection<BsonDocument> AppliedCollection = database.GetCollection<BsonDocument>("LIA-Applications");
